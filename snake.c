@@ -2,36 +2,67 @@
 #include <stdlib.h>
 #include <windows.h>
 
-int main() {
+int main()
+{
 
     int x = 13, y = 13;
     char move;
     int foodX = 16, foodY = 16;
     int score = 0;
-    system("cls"); // Clear the console screen
-    while (1) {
+    system("cls"); // Clears the console screen
 
-    // Board er size
-        for (int i = 0; i < 30; i++) {
+    // Welcome message
+    printf("========================================\n");
+    printf("          WELCOME TO SNAKE GAME         \n");
+    printf("========================================\n\n");
 
-            for (int j = 0; j < 30; j++) {
+    printf("Eat the food (*) and increase your score!\n");
+    printf("Don't hit the border!\n\n");
 
-            // Board er border
-                if (i == 0 || i == 29 || j == 0 || j == 29) {
+    printf("CONTROLS:\n");
+    printf("U -> Move Up\n");
+    printf("D -> Move Down\n");
+    printf("L -> Move Left\n");
+    printf("R -> Move Right\n");
+    printf("Q -> Quit Game\n\n");
+
+    printf("========================================\n");
+    printf("       Press Enter to start the game\n");
+    printf("========================================\n");
+
+    getchar();
+
+    system("cls");
+    while (1)
+    {
+
+        // Size of border
+        for (int i = 0; i < 30; i++)
+        {
+
+            for (int j = 0; j < 30; j++)
+            {
+
+                // Board of border
+                if (i == 0 || i == 29 || j == 0 || j == 29)
+                {
                     printf("#");
                 }
 
-                // Snake 
-                else if (i == y && j == x) {
+                // Snake
+                else if (i == y && j == x)
+                {
                     printf("O");
                 }
 
-                // Food 
-                else if (i == foodY && j == foodX) {
+                // Food
+                else if (i == foodY && j == foodX)
+                {
                     printf("*");
                 }
 
-                else {
+                else
+                {
                     printf(" ");
                 }
             }
@@ -40,41 +71,48 @@ int main() {
         }
 
         // Game over condition
-        if (x <= 0 || x >= 29 || y <= 0 || y >= 29) {
-            printf("Game Over! Final Score: %d\n", score);
+        if (x <= 0 || x >= 29 || y <= 0 || y >= 29)
+        {
+            printf("Game Over ^_^\n Final Score: %d\n Thanks for playing ^_^\n", score);
             break;
         }
 
-        // Score print korbe
+        // Prints score
         score = (x == foodX && y == foodY) ? score + 1 : score;
 
         printf("\nScore: %d\n", score);
 
-        // Food khawa hole food er position change korbe
+        // After eating food the position of food will change
 
-        if (x == foodX && y == foodY) {
+        if (x == foodX && y == foodY)
+        {
             foodX = 1 + rand() % 28;
             foodY = 1 + rand() % 28;
         }
 
-        // Input nibo
+        // Taking input
         printf("Enter U/D/L/R to move (Q to quit): ");
         scanf(" %c", &move);
 
-        // Move korbe
-        if (move == 'U') {
+        // For moving
+        if (move == 'U')
+        {
             y--;
         }
-        else if (move == 'D') {
+        else if (move == 'D')
+        {
             y++;
         }
-        else if (move == 'L') {
+        else if (move == 'L')
+        {
             x--;
         }
-        else if (move == 'R') {
+        else if (move == 'R')
+        {
             x++;
-        }    
-        else if (move == 'Q') {
+        }
+        else if (move == 'Q')
+        {
             break;
         }
     }

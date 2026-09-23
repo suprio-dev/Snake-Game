@@ -1,173 +1,160 @@
-#snake.c
-This is a snake game. I made it during my C learning.
 # 🐍 Snake Game in C
 
-This is my **first game project in C programming** — a simple console-based **Snake Game** created while learning the fundamentals of C.
+A simple **console-based Snake Game written in C**, created as my first game project while learning the fundamentals of C programming.
 
-The main goal of this project was not just to make a game, but to understand how programming concepts work together in a real project. While building this game, I practiced **variables, loops, conditions, functions, keyboard input, random numbers, game logic, and screen handling**.
+This project helped me understand how basic programming concepts such as **variables, loops, conditional statements, user input, random numbers, and game logic** can come together to create an interactive program.
 
 ## 🎮 About the Game
 
-In this Snake Game, the player controls a snake inside a bordered game area.
-
 The objective is simple:
 
-* 🐍 Move the snake around the game area
-* 🍎 Eat the food
+* 🐍 Move the snake around the game board
+* 🍎 Eat the food (`*`)
 * 📈 Increase your score
 * 🧱 Avoid hitting the walls
-* 💥 Avoid colliding with yourself
-* 🏆 Try to achieve the highest possible score
+* ❌ Quit whenever you want
 
-The snake becomes longer as it eats food, making the game progressively more challenging.
+Every time the snake reaches the food, the score increases and the food appears at a new random position.
 
 ## 🛠️ Technologies Used
 
 * **C Programming Language**
 * **GCC Compiler**
 * **Windows Console**
-* `stdlib.h`
-* `stdio.h`
-* `conio.h`
-* `windows.h`
+
+### Libraries
+
+* `stdio.h` — Input and output
+* `stdlib.h` — Random number generation and system commands
+* `windows.h` — Windows-specific console support
 
 ## 🎯 Controls
 
 | Key | Action        |
 | --- | ------------- |
-| `W` | Move Up ⬆️    |
-| `S` | Move Down ⬇️  |
-| `A` | Move Left ⬅️  |
-| `D` | Move Right ➡️ |
+| `U` | Move Up ⬆️    |
+| `D` | Move Down ⬇️  |
+| `L` | Move Left ⬅️  |
+| `R` | Move Right ➡️ |
 | `Q` | Quit Game ❌   |
+
+> **Note:** This version uses keyboard input followed by `Enter`.
 
 ## ✨ Features
 
-* Console-based gameplay
-* Snake movement
-* Random food generation
-* Score system
-* Snake growth
-* Collision detection
-* Game-over condition
-* Increasing difficulty
-* Keyboard controls
-* Simple and beginner-friendly implementation
+* 🖥️ Console-based gameplay
+* 🐍 Snake movement
+* 🍎 Random food generation
+* 📊 Score tracking
+* 🧱 Border collision detection
+* 💀 Game-over condition
+* 🎮 Simple keyboard controls
+* 🔄 Replayable gameplay
+* 🌱 Beginner-friendly C implementation
 
 ## 🧠 What I Learned
 
-This project helped me understand how different C concepts can be combined to create something interactive.
+Building this project gave me practical experience with several fundamental C concepts.
 
-### 1. Loops
+### 1. Variables
 
-Loops are used to continuously run the game until the player loses or quits.
+Used variables to keep track of the snake's position, food position, score, and player input.
 
-### 2. Conditional Statements
+### 2. Loops
 
-`if`, `else`, and other conditions are used for:
+Nested `for` loops are used to draw the game board row by row and column by column.
 
-* Checking movement
-* Detecting food
-* Detecting collisions
-* Checking game-over conditions
+The `while` loop keeps the game running until the player quits or the game ends.
 
-### 3. Functions
+### 3. Conditional Statements
 
-Functions help divide the game into smaller and easier-to-understand parts, such as:
+`if`, `else if`, and `else` conditions are used to:
 
-* Drawing the game
-* Moving the snake
-* Generating food
-* Checking collisions
-* Updating the score
+* Draw the border
+* Display the snake
+* Display the food
+* Detect when food is eaten
+* Detect collisions
+* Handle player movement
 
 ### 4. Random Numbers
 
-Random number generation is used to place food at different positions so that the game does not always behave the same way.
+Random numbers are used to generate a new position for the food after it is eaten.
 
 ### 5. Keyboard Input
 
-Keyboard input allows the player to control the snake while the game is running.
+User input is taken using `scanf()` to determine the direction in which the snake should move.
 
 ### 6. Game Logic
 
-The most interesting part of this project was learning how multiple programming concepts work together to create a complete game loop.
+The most interesting part was learning how individual programming concepts can work together inside a continuous **game loop**.
 
-## 📊 Game Flow
+## 🔄 Game Flow
 
 ```text
 Start Game
     ↓
 Initialize Snake
     ↓
-Generate Food
+Set Food Position
     ↓
-Display Game
+Draw Game Board
+    ↓
+Check Game Over
+    ↓
+Update Score
+    ↓
+Check Food
     ↓
 Take User Input
     ↓
 Move Snake
     ↓
-Check Food
-    ↓
-Food Eaten?
- ┌──Yes──→ Increase Score
- │          ↓
- │      Grow Snake
- │          ↓
- │      Generate Food
- │
- └──No
-    ↓
-Check Collision
-    ↓
-Collision?
- ┌──Yes──→ Game Over
- │
- └──No
-    ↓
-Continue Game
+Repeat
 ```
 
 ## 🚀 Future Improvements
 
-This is only the beginning of my game-development journey in C. I would like to improve this project further by adding:
+There is a lot of room to expand this project. Some improvements I would like to add in future versions:
 
-* 🎨 Better console graphics
-* 🔊 Sound effects
+* 🐍 Actual snake body and growth
+* ⚡ Continuous movement
+* 🎮 Real-time keyboard controls
 * 🏆 High-score system
-* ⚡ Different difficulty levels
-* ⏱️ Increasing snake speed
-* 🎮 Pause and resume
+* 🔊 Sound effects
+* 🎨 Better console graphics
+* 📈 Increasing difficulty
+* ⏸️ Pause and resume
 * 🧱 Obstacles
-* 🍎 Multiple types of food
-* 💾 Saving high scores
 * 🗺️ Different maps
+* 🍎 Multiple food types
+* 💾 Save high scores
 * 👥 Two-player mode
 
 ## 📚 Why I Made This Project
 
-As a beginner in programming, I wanted to move beyond simply solving small C problems and build something that actually **works and feels interactive**.
+As a beginner, I wanted to go beyond writing individual C programs and build something that actually **works and feels interactive**.
 
-Creating this Snake Game helped me understand that programming is not only about writing individual statements — it is about combining small concepts to build a complete system.
+This project taught me an important lesson:
 
-This project is my **first step toward becoming better at programming and building larger projects in the future.**
+> Programming is not just about learning individual concepts. It's about combining those concepts to build something real.
+
+This Snake Game is my **first step toward building larger and more complex projects in the future.** 🚀
 
 ## ❤️ My First Game
 
-> **This is my first game project in C.**
+> **My first game. My first step into building with C.**
 
-It may be a simple game, but it represents an important milestone in my programming journey.
+It may be a simple console game, but it represents an important milestone in my programming journey.
 
-From basic C programs to my first game — **this is just the beginning. 🚀**
+From basic C programs to my first game — **this is just the beginning. 🐍🚀**
 
 ## 👨‍💻 Author
 
 **Sriyan Acharya**
-
-CSE (AI) Student
+B.Tech CSE (AI) Student
 UEM Kolkata
 
 ---
 
-⭐ If you like this project, feel free to give it a **star**!
+⭐ If you found this project interesting, feel free to **star the repository**!
