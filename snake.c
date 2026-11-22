@@ -1,121 +1,235 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 #include <windows.h>
+#include <time.h>
+
+#define WIDTH 30
+#define HEIGHT 15
+#define MAX_SNAKE 100
+
+int snakeX[MAX_SNAKE];
+int snakeY[MAX_SNAKE];
+
+int snakeLength;
+int foodX;
+int foodY;
+int score;
+int gameOver;
+
+enum Direction
+{
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT
+};
+
+enum Direction direction;
+
+void clearScreen()
+{
+  system("cls");
+}
+
+void spawnFood()
+{
+  int valid;
+  do
+  {
+    valid = 1;
+    foodX = rand() % WIDTH;
+    foodY = rand() % HEIGHT;
+
+    for (int i = 0; i < snakeLength; i++)
+    {
+      if (snakeX[i] == foodX && snakeY[i] == foodY)
+      {
+        valid = 0;
+        break;
+      }
+    }
+  } while (!valid);
+}
+
+void initializeGame()
+{
+  snakeLength = 3;
+  snakeX[0] = WIDTH / 2;
+  snakeY[0] = HEIGHT / 2;
+
+  snakeX[1] = snakeX[0] - 1;
+  snakeY[1] = snakeY[0];
+
+  snakeX[2] = snakeX[0] - 2;
+  snakeY[2] = snakeY[0];
+
+  direction = RIGHT;
+
+  score = 0;
+  gameOver = 0;
+
+  spawnFood();
+}
+
+void draw()
+{
+  clearScreen();
+  printf("Score : %d\n\n", score);
+
+  for (int y = -1; y <= HEIGHT; y++)
+  {
+    for (int x = -1; x <= WIDTH; x++)
+    {
+      if (x == -1 || x == WIDTH || y == -1 || y == HEIGHT)
+      {
+        printf("##");
+        continue;
+      }
+
+      if (x == foodX && y == foodY)
+      {
+        printf("[]");
+        continue;
+      }
+
+      int printed = 0;
+      for (int i = 0; i < snakeLength; i++)
+      {
+        if (snakeX[i] == x && snakeY[i] == y)
+        {
+          if (i == 0)
+            printf("OO");
+          else
+            printf("oo");
+          printed = 1;
+          break;
+        }
+      }
+      if (!printed)
+        printf("  ");
+    }
+    printf("\n");
+  }
+
+  printf("\n");
+  printf("+----------------------------------+\n");
+  printf("|          CONTROLS                |\n");
+  printf("|                                  |\n");
+  printf("|     W A S D  =  MOVE             |\n");
+  printf("|       Q      =  QUIT             |\n");
+  printf("+----------------------------------+\n");
+}
+
+void handleInput()
+{
+  if (!_kbhit())
+  {
+    return;
+  }
+  char input = _getch();
+  if (input == 'q' || input == 'Q')
+  {
+    gameOver = 1;
+  }
+  if ((input == 'w' || input == 'W') && direction != DOWN)
+  {
+    direction = UP;
+  }
+  if ((input == 'a' || input == 'A') && direction != RIGHT)
+  {
+    direction = LEFT;
+  }
+  if ((input == 's' || input == 'S') && direction != UP)
+  {
+    direction = DOWN;
+  }
+  if ((input == 'd' || input == 'D') && direction != LEFT)
+  {
+    direction = RIGHT;
+  }
+}
+
+void moveSnake()
+{
+  for (int i = snakeLength - 1; i > 0; i--)
+  {
+    snakeX[i] = snakeX[i - 1];
+    snakeY[i] = snakeY[i - 1];
+  }
+  if (direction == UP)
+    snakeY[0]--;
+  else if (direction == DOWN)
+    snakeY[0]++;
+  else if (direction == LEFT)
+    snakeX[0]--;
+  else if (direction == RIGHT)
+    snakeX[0]++;
+
+  // wrap around Horizontally
+  if (snakeX[0] < 0)
+    snakeX[0] = WIDTH - 1;
+  else if (snakeX[0] >= WIDTH)
+    snakeX[0] = 0;
+
+  // wrap around Vertically
+  if (snakeY[0] < 0)
+    snakeY[0] = HEIGHT - 1;
+  else if (snakeY[0] >= HEIGHT)
+    snakeY[0] = 0;
+}
+
+void checkcollision()
+{
+  for (int i = 1; i < snakeLength; i++)
+  {
+    if (snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i])
+    {
+      gameOver = 1;
+      return;
+    }
+  }
+}
+
+void checkFood()
+{
+  if (snakeX[0] == foodX && snakeY[0] == foodY)
+  {
+    if (snakeLength < MAX_SNAKE)
+    {
+      snakeLength++;
+    }
+    score += 10;
+    spawnFood();
+  }
+}
 
 int main()
 {
-
-    int x = 13, y = 13;
-    char move;
-    int foodX = 16, foodY = 16;
-    int score = 0;
-    system("cls"); // Clears the console screen
-
-    // Welcome message
-    printf("========================================\n");
-    printf("          WELCOME TO SNAKE GAME         \n");
-    printf("========================================\n\n");
-
-    printf("Eat the food (*) and increase your score!\n");
-    printf("Don't hit the border!\n\n");
-
-    printf("CONTROLS:\n");
-    printf("U -> Move Up\n");
-    printf("D -> Move Down\n");
-    printf("L -> Move Left\n");
-    printf("R -> Move Right\n");
-    printf("Q -> Quit Game\n\n");
-
-    printf("========================================\n");
-    printf("       Press Enter to start the game\n");
-    printf("========================================\n");
-
-    getchar();
-
-    system("cls");
-    while (1)
+  srand(time(NULL));
+  initializeGame();
+  while (!gameOver)
+  {
+    draw();
+    handleInput();
+    moveSnake();
+    checkcollision();
+    if (!gameOver)
     {
-
-        // Size of border
-        for (int i = 0; i < 30; i++)
-        {
-
-            for (int j = 0; j < 30; j++)
-            {
-
-                // Board of border
-                if (i == 0 || i == 29 || j == 0 || j == 29)
-                {
-                    printf("#");
-                }
-
-                // Snake
-                else if (i == y && j == x)
-                {
-                    printf("O");
-                }
-
-                // Food
-                else if (i == foodY && j == foodX)
-                {
-                    printf("*");
-                }
-
-                else
-                {
-                    printf(" ");
-                }
-            }
-
-            printf("\n");
-        }
-
-        // Game over condition
-        if (x <= 0 || x >= 29 || y <= 0 || y >= 29)
-        {
-            printf("Game Over ^_^\n Final Score: %d\n Thanks for playing ^_^\n", score);
-            break;
-        }
-
-        // Prints score
-        score = (x == foodX && y == foodY) ? score + 1 : score;
-
-        printf("\nScore: %d\n", score);
-
-        // After eating food the position of food will change
-
-        if (x == foodX && y == foodY)
-        {
-            foodX = 1 + rand() % 28;
-            foodY = 1 + rand() % 28;
-        }
-
-        // Taking input
-        printf("Enter U/D/L/R to move (Q to quit): ");
-        scanf(" %c", &move);
-
-        // For moving
-        if (move == 'U')
-        {
-            y--;
-        }
-        else if (move == 'D')
-        {
-            y++;
-        }
-        else if (move == 'L')
-        {
-            x--;
-        }
-        else if (move == 'R')
-        {
-            x++;
-        }
-        else if (move == 'Q')
-        {
-            break;
-        }
+      checkFood();
     }
+    Sleep(120);
+  }
+  clearScreen();
 
-    return 0;
+  printf("\n");
+  printf("        +--------------------------+\n");
+  printf("        |        GAME OVER!        |\n");
+  printf("        +--------------------------+\n");
+  printf("        |                          |\n");
+  printf("        |     SCORE : %-10d        |\n", score);
+  printf("        |                          |\n");
+  printf("        |    THANKS FOR PLAYING!   |\n");
+  printf("        +--------------------------+\n");
+  return 0;
 }
